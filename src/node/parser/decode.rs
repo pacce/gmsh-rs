@@ -2,6 +2,7 @@ use {
     super::{
         Coordinate,
         Node,
+        Tag,
     },
     nom::{
         character::complete::{
@@ -10,7 +11,10 @@ use {
         },
         error::ParseError,
         IResult,
-        number::complete::double,
+        number::complete::{
+            float,
+            double,
+        },
         sequence::tuple
     }
 };
@@ -38,4 +42,18 @@ pub fn node<'a, E: ParseError<&'a str>>(i: &'a str)
 {
     let (i, (n, _)) = tuple((coordinates, newline))(i)?;
     Ok((i, n))
+}
+
+fn tagv<'a, E: ParseError<&'a str>>(i: &'a str)
+    -> IResult<&'a str, Tag, E>
+{
+    let (i, n) = float(i)?;
+    Ok((i, n as Tag))
+}
+
+pub fn tag<'a, E: ParseError<&'a str>>(i: &'a str)
+    -> IResult<&'a str, Tag, E>
+{
+    let (i, (t, _)) = tuple((tagv, newline))(i)?;
+    Ok((i, t))
 }

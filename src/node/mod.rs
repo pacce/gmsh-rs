@@ -2,6 +2,7 @@ mod parser;
 pub use parser::decode::node as decode;
 
 pub(crate) type Coordinate = f64;
+pub type Tag = i32;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Node {
