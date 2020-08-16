@@ -1,40 +1,27 @@
-#[cfg(test)]
-mod test;
+mod parser;
+pub use parser::decode::node as decode;
 
-use nom::{
-    character::complete::space0,
-    error::ParseError,
-    IResult,
-    number::complete::double,
-};
+pub(crate) type Coordinate = f64;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Node {
-    x: f64,
-    y: f64,
-    z: f64,
+    x: Coordinate,
+    y: Coordinate,
+    z: Coordinate,
 }
 
 impl Node {
-    pub fn new(x: f64, y: f64, z: f64) -> Self {
+    pub fn new(x: Coordinate, y: Coordinate, z: Coordinate) -> Self {
         Self{x, y, z}
     }
 }
 
 impl std::default::Default for Node {
     fn default() -> Self {
-        Self{x: 0.0, y: 0.0, z: 0.0}
+        Self{
+            x: Coordinate::default(),
+            y: Coordinate::default(),
+            z: Coordinate::default()
+        }
     }
-}
-
-pub fn decode<'a, E: ParseError<&'a str>>(i: &'a str)
-    -> IResult<&'a str, Node, E>
-{
-    let (i, x) = double(i)?;
-    let (i, _) = space0(i)?;
-    let (i, y) = double(i)?;
-    let (i, _) = space0(i)?;
-    let (i, z) = double(i)?;
-
-    Ok((i, Node{x, y, z}))
 }

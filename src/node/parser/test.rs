@@ -1,15 +1,22 @@
 use {
     nom::{
-        character::complete::newline,
-        multi::separated_list
+        error::ErrorKind,
+        multi::many0,
+        IResult,
     },
-    super::*
+    super::{
+        decode::{
+            coordinates,
+            node,
+        },
+        Node,
+    }
 };
 
 #[test]
 fn default() {
     let expected = Node::default();
-    match decode::<(&str, nom::error::ErrorKind)>("0. 0. 0.") {
+    match coordinates::<(&str, ErrorKind)>("0. 0. 0.") {
         Ok((_, actual)) => assert_eq!(expected, actual),
         Err(_) => assert!(false),
     }
@@ -33,7 +40,7 @@ fn multiple() {
         Node::new(2.0, 1.0, 0.0),
     ];
     fn parser(s: &str) -> IResult<&str, Vec<Node>> {
-        separated_list(newline, decode)(s)
+        many0(node)(s)
     }
     match parser(content) {
         Ok((_, actual)) => {
