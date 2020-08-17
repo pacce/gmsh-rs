@@ -1,7 +1,8 @@
-pub mod decode;
+mod decode;
+
 use super::{
-    Coordinate,
-    Node,
+    Dimension,
+    Entity,
     Tag,
 };
 

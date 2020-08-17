@@ -5,7 +5,6 @@ use {
         IResult,
     },
     super::{
-
         decode::{
             coordinates,
             node,

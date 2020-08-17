@@ -1,5 +1,5 @@
 mod parser;
-pub use parser::decode::node as decode;
+pub use parser::decode;
 
 pub(crate) type Coordinate = f64;
 pub type Tag = i32;
