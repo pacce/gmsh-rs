@@ -4,6 +4,7 @@ use super::{
     Dimension,
     Entity,
     Node,
+    Nodes,
     Tag,
 };
 

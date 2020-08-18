@@ -1,5 +1,6 @@
 use {
     nom::{
+        bytes::complete,
         character::complete::{
             newline,
             space0,
@@ -19,6 +20,7 @@ use {
         Dimension,
         Entity,
         Node,
+        Nodes,
         Tag,
     },
 };
@@ -52,6 +54,29 @@ pub fn node<'a, E: ParseError<&'a str>>(i: &'a str)
 {
     let (i, (n, _)) = tuple((coordinates, newline))(i)?;
     Ok((i, n))
+}
+
+pub fn nodes<'a, E: ParseError<&'a str>>(i: &'a str)
+    -> IResult<&'a str, Nodes, E>
+{
+    let (i, _)      = complete::tag("$Nodes")(i)?;
+    let (i, _)      = newline(i)?;
+
+    let (i, es)     = count(i)?;
+    let (i, _)      = space0(i)?;
+    let (i, ns)     = count(i)?;
+    let (i, _)      = space0(i)?;
+    let (i, min)    = tag(i)?;
+    let (i, _)      = space0(i)?;
+    let (i, max)    = tag(i)?;
+    let (i, _)      = newline(i)?;
+
+    let (i, entities) = multi::count(entity, es)(i)?;
+
+    let (i, _)      = complete::tag("$EndNodes")(i)?;
+    let (i, _)      = newline(i)?;
+
+    Ok((i, Nodes::new(min, max, entities)))
 }
 
 pub fn tag_newline<'a, E: ParseError<&'a str>>(i: &'a str)

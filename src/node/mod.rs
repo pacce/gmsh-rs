@@ -7,6 +7,31 @@ pub(crate) type Coordinate = f64;
 pub type Dimension = i32;
 pub type Tag = i32;
 
+#[derive(Clone, Debug, PartialEq)]
+pub struct Entity {
+    dimension   : Dimension,
+    tag         : Tag,
+    nodes       : HashMap<Tag, Node>,
+}
+
+impl Entity {
+    pub fn new(dimension: Dimension, tag: Tag, nodes: HashMap<Tag, Node>)
+        -> Self
+    {
+        Self{dimension, tag, nodes}
+    }
+}
+
+impl std::default::Default for Entity {
+    fn default() -> Self {
+        Self {
+            dimension   : Dimension::default(),
+            tag         : Tag::default(),
+            nodes       : HashMap::new()
+        }
+    }
+}
+
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Node {
     x: Coordinate,
@@ -31,26 +56,14 @@ impl std::default::Default for Node {
 }
 
 #[derive(Clone, Debug, PartialEq)]
-pub struct Entity {
-    dimension   : Dimension,
-    tag         : Tag,
-    nodes       : HashMap<Tag, Node>,
+pub struct Nodes {
+    min         : Tag,
+    max         : Tag,
+    entities    : Vec<Entity>,
 }
 
-impl Entity {
-    pub fn new(dimension: Dimension, tag: Tag, nodes: HashMap<Tag, Node>)
-        -> Self
-    {
-        Self{dimension, tag, nodes}
-    }
-}
-
-impl std::default::Default for Entity {
-    fn default() -> Self {
-        Self {
-            dimension   : Dimension::default(),
-            tag         : Tag::default(),
-            nodes       : HashMap::new()
-        }
+impl Nodes {
+    pub fn new(min: Tag, max: Tag, entities: Vec<Entity>) -> Self {
+        Self{min, max, entities}
     }
 }
