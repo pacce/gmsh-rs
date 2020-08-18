@@ -132,6 +132,73 @@ $EndNodes
 }
 
 #[test]
+fn nodes2() {
+    let content = "\
+$Nodes
+2 12 1 12
+2 1 0 6
+1
+2
+3
+4
+5
+6
+0. 0. 0.
+1. 0. 0.
+1. 1. 0.
+0. 1. 0.
+2. 0. 0.
+2. 1. 0.
+2 2 0 6
+7
+8
+9
+10
+11
+12
+0. 0. 0.
+1. 0. 0.
+1. 1. 0.
+0. 1. 0.
+2. 0. 0.
+2. 1. 0.
+$EndNodes
+";
+    let e0 = {
+        let mut ns : HashMap<Tag, Node> = HashMap::new();
+        ns.insert(1, Node::new(0., 0., 0.));
+        ns.insert(2, Node::new(1., 0., 0.));
+        ns.insert(3, Node::new(1., 1., 0.));
+        ns.insert(4, Node::new(0., 1., 0.));
+        ns.insert(5, Node::new(2., 0., 0.));
+        ns.insert(6, Node::new(2., 1., 0.));
+
+        Entity::new(2, 1, ns)
+    };
+
+    let e1 = {
+        let mut ns : HashMap<Tag, Node> = HashMap::new();
+        ns.insert( 7, Node::new(0., 0., 0.));
+        ns.insert( 8, Node::new(1., 0., 0.));
+        ns.insert( 9, Node::new(1., 1., 0.));
+        ns.insert(10, Node::new(0., 1., 0.));
+        ns.insert(11, Node::new(2., 0., 0.));
+        ns.insert(12, Node::new(2., 1., 0.));
+
+        Entity::new(2, 2, ns)
+    };
+    let expected = Nodes::new(1, 12, vec![e0, e1]);
+
+    match decode::nodes::<(&str, ErrorKind)>(content) {
+        Ok((_, actual)) => assert_eq!(expected, actual),
+        Err(e) => {
+            eprintln!("{:?}", e);
+            assert!(false);
+        }
+    }
+}
+
+#[test]
 fn tags() {
     let content = "\
 1
