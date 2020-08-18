@@ -1,7 +1,10 @@
 mod parser;
 pub use parser::decode;
 
+use std::collections::HashMap;
+
 pub(crate) type Coordinate = f64;
+pub type Dimension = i32;
 pub type Tag = i32;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -23,6 +26,31 @@ impl std::default::Default for Node {
             x: Coordinate::default(),
             y: Coordinate::default(),
             z: Coordinate::default()
+        }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub struct Entity {
+    dimension   : Dimension,
+    tag         : Tag,
+    nodes       : HashMap<Tag, Node>,
+}
+
+impl Entity {
+    pub fn new(dimension: Dimension, tag: Tag, nodes: HashMap<Tag, Node>)
+        -> Self
+    {
+        Self{dimension, tag, nodes}
+    }
+}
+
+impl std::default::Default for Entity {
+    fn default() -> Self {
+        Self {
+            dimension   : Dimension::default(),
+            tag         : Tag::default(),
+            nodes       : HashMap::new()
         }
     }
 }
