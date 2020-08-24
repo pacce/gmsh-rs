@@ -12,6 +12,7 @@ use {
             quadrangle4,
             tetrahedron4,
             hexahedron8,
+            prism6,
             self,
         },
         Element,
@@ -137,6 +138,24 @@ fn entity_hexahedron8() {
 }
 
 #[test]
+fn entity_prism6() {
+    let content = "\
+2 1 6 2
+1 1 2 3 4 5 6
+2 7 8 9 10 11 12
+";
+    let mut elements : HashMap<ElementTag, Element> = HashMap::new();
+    elements.insert(1, Element::Prism6(1, 2, 3, 4, 5, 6));
+    elements.insert(2, Element::Prism6(7, 8, 9, 10, 11, 12));
+
+    let expected = Entity::new(2, 1, 6, elements);
+    match decode::entity::<(&str, ErrorKind)>(content) {
+        Ok((_, actual)) => assert_eq!(expected, actual),
+        Err(_) => assert!(false),
+    }
+}
+
+#[test]
 fn elements_line2() {
     let content = "\
 1 1 2
@@ -252,6 +271,31 @@ fn elements_hexahedron8() {
     ];
     fn parser(s: &str) -> IResult<&str, Vec<(ElementTag, Element)>> {
         many0(hexahedron8)(s)
+    }
+    match parser(content) {
+        Ok((i_, actual)) => {
+            assert_eq!(expected.len(), actual.len());
+            for ((et, ee), (at, ae)) in expected.iter().zip(actual) {
+                assert_eq!(*et, at);
+                assert_eq!(*ee, ae);
+            }
+        }
+        Err(_) => assert!(false),
+    }
+}
+
+#[test]
+fn elements_prism6() {
+    let content = "\
+1 1 2 3 4 5 6
+2 7 8 9 10 11 12
+";
+    let expected = vec![
+        (1, Element::Prism6(1, 2, 3, 4, 5, 6)),
+        (2, Element::Prism6(7, 8, 9, 10, 11, 12)),
+    ];
+    fn parser(s: &str) -> IResult<&str, Vec<(ElementTag, Element)>> {
+        many0(prism6)(s)
     }
     match parser(content) {
         Ok((i_, actual)) => {

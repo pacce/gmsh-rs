@@ -88,4 +88,12 @@ pub enum Element {
         node::Tag,
         node::Tag,
         ),
+    Prism6 (
+        node::Tag,
+        node::Tag,
+        node::Tag,
+        node::Tag,
+        node::Tag,
+        node::Tag,
+        ),
 }
