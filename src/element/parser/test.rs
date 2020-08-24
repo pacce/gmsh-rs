@@ -34,7 +34,6 @@ $EndElements
 
     let entities = Entity::new(2, 1, 2, es);
     let expected = Elements::new(1, 2, vec![entities]);
-    println!("{:?}", expected);
     match decode::elements::<(&str, ErrorKind)>(content) {
         Ok((_, actual)) => assert_eq!(expected, actual),
         Err(e) => {
