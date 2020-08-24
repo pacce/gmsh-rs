@@ -10,6 +10,7 @@ use {
             line2,
             triangle3,
             quadrangle4,
+            tetrahedron4,
             self,
         },
         Element,
@@ -81,6 +82,42 @@ fn entity_triangle3() {
 }
 
 #[test]
+fn entity_quadrangle4() {
+    let content = "\
+2 1 3 2
+1 1 2 3 4
+2 5 6 7 8
+";
+    let mut elements : HashMap<ElementTag, Element> = HashMap::new();
+    elements.insert(1, Element::Quadrangle4(1, 2, 3, 4));
+    elements.insert(2, Element::Quadrangle4(5, 6, 7, 8));
+
+    let expected = Entity::new(2, 1, 3, elements);
+    match decode::entity::<(&str, ErrorKind)>(content) {
+        Ok((_, actual)) => assert_eq!(expected, actual),
+        Err(_) => assert!(false),
+    }
+}
+
+#[test]
+fn entity_tetrahedron4() {
+    let content = "\
+2 1 4 2
+1 1 2 3 4
+2 5 6 7 8
+";
+    let mut elements : HashMap<ElementTag, Element> = HashMap::new();
+    elements.insert(1, Element::Tetrahedron4(1, 2, 3, 4));
+    elements.insert(2, Element::Tetrahedron4(5, 6, 7, 8));
+
+    let expected = Entity::new(2, 1, 4, elements);
+    match decode::entity::<(&str, ErrorKind)>(content) {
+        Ok((_, actual)) => assert_eq!(expected, actual),
+        Err(_) => assert!(false),
+    }
+}
+
+#[test]
 fn elements_line2() {
     let content = "\
 1 1 2
@@ -106,7 +143,6 @@ fn elements_line2() {
         Err(_) => assert!(false),
     }
 }
-
 
 #[test]
 fn elements_triangle3() {
@@ -147,6 +183,31 @@ fn elements_quadrangle4() {
     ];
     fn parser(s: &str) -> IResult<&str, Vec<(ElementTag, Element)>> {
         many0(quadrangle4)(s)
+    }
+    match parser(content) {
+        Ok((i_, actual)) => {
+            assert_eq!(expected.len(), actual.len());
+            for ((et, ee), (at, ae)) in expected.iter().zip(actual) {
+                assert_eq!(*et, at);
+                assert_eq!(*ee, ae);
+            }
+        }
+        Err(_) => assert!(false),
+    }
+}
+
+#[test]
+fn elements_tetrahedron4() {
+    let content = "\
+1 1 2 3 4
+2 5 6 7 8
+";
+    let expected = vec![
+        (1, Element::Tetrahedron4(1, 2, 3, 4)),
+        (2, Element::Tetrahedron4(5, 6, 7, 8)),
+    ];
+    fn parser(s: &str) -> IResult<&str, Vec<(ElementTag, Element)>> {
+        many0(tetrahedron4)(s)
     }
     match parser(content) {
         Ok((i_, actual)) => {

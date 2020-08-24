@@ -60,4 +60,5 @@ pub enum Element {
     Line2 ( node::Tag, node::Tag ),
     Triangle3 ( node::Tag, node::Tag, node::Tag ),
     Quadrangle4 ( node::Tag, node::Tag, node::Tag, node::Tag),
+    Tetrahedron4 ( node::Tag, node::Tag, node::Tag, node::Tag),
 }
