@@ -64,6 +64,7 @@ pub fn entity<'a, E: ParseError<&'a str>>(i: &'a str)
     let (i, es) = match element_type {
         1 => multi::count(line2, count)(i)?,
         2 => multi::count(triangle3, count)(i)?,
+        3 => multi::count(quadrangle4, count)(i)?,
         _ => ("", vec![]),
     };
 
@@ -146,6 +147,31 @@ pub fn triangle3<'a, E: ParseError<&'a str>>(i: &'a str)
             n0 as node::Tag,
             n1 as node::Tag,
             n2 as node::Tag,
+        )
+    )))
+}
+
+pub fn quadrangle4<'a, E: ParseError<&'a str>>(i: &'a str)
+    -> IResult<&'a str, (ElementTag, Element), E>
+{
+    let (i, t)  = element_tag(i)?;
+    let (i, _)  = space0(i)?;
+    let (i, n0) = float(i)?;
+    let (i, _)  = space0(i)?;
+    let (i, n1) = float(i)?;
+    let (i, _)  = space0(i)?;
+    let (i, n2) = float(i)?;
+    let (i, _)  = space0(i)?;
+    let (i, n3) = float(i)?;
+    let (i, _)  = newline(i)?;
+
+    Ok((i, (
+        t,
+        Element::Quadrangle4 (
+            n0 as node::Tag,
+            n1 as node::Tag,
+            n2 as node::Tag,
+            n3 as node::Tag,
         )
     )))
 }

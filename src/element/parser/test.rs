@@ -9,6 +9,7 @@ use {
         decode::{
             line2,
             triangle3,
+            quadrangle4,
             self,
         },
         Element,
@@ -121,6 +122,31 @@ fn elements_triangle3() {
     ];
     fn parser(s: &str) -> IResult<&str, Vec<(ElementTag, Element)>> {
         many0(triangle3)(s)
+    }
+    match parser(content) {
+        Ok((i_, actual)) => {
+            assert_eq!(expected.len(), actual.len());
+            for ((et, ee), (at, ae)) in expected.iter().zip(actual) {
+                assert_eq!(*et, at);
+                assert_eq!(*ee, ae);
+            }
+        }
+        Err(_) => assert!(false),
+    }
+}
+
+#[test]
+fn elements_quadrangle4() {
+    let content = "\
+1 1 2 3 4
+2 5 6 7 8
+";
+    let expected = vec![
+        (1, Element::Quadrangle4(1, 2, 3, 4)),
+        (2, Element::Quadrangle4(5, 6, 7, 8)),
+    ];
+    fn parser(s: &str) -> IResult<&str, Vec<(ElementTag, Element)>> {
+        many0(quadrangle4)(s)
     }
     match parser(content) {
         Ok((i_, actual)) => {
