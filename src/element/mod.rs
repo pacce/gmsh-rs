@@ -11,6 +11,20 @@ pub type ElementType = i32;
 pub type EntityTag = i32;
 
 #[derive(Clone, Debug, PartialEq)]
+pub struct Elements {
+    min     : ElementTag,
+    max     : ElementTag,
+    entities: Vec<Entity>,
+}
+
+impl Elements {
+    pub fn new(min: ElementTag, max: ElementTag, entities: Vec<Entity>)
+        -> Self {
+        Self{min, max, entities}
+    }
+}
+
+#[derive(Clone, Debug, PartialEq)]
 pub struct Entity {
     dimension   : Dimension,
     tag         : EntityTag,

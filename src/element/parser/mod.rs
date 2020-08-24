@@ -2,6 +2,7 @@ pub mod decode;
 use super::{
     Dimension,
     Element,
+    Elements,
     ElementTag,
     ElementType,
     Entity,

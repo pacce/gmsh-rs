@@ -12,10 +12,37 @@ use {
             self,
         },
         Element,
+        Elements,
         ElementTag,
         Entity,
     },
 };
+
+#[test]
+fn elements() {
+    let content = "\
+$Elements
+1 2 1 2
+2 1 2 2
+1 1 2 3
+2 3 4 5
+$EndElements
+";
+    let mut es : HashMap<ElementTag, Element> = HashMap::new();
+    es.insert(1, Element::Triangle3(1, 2, 3));
+    es.insert(2, Element::Triangle3(3, 4, 5));
+
+    let entities = Entity::new(2, 1, 2, es);
+    let expected = Elements::new(1, 2, vec![entities]);
+    println!("{:?}", expected);
+    match decode::elements::<(&str, ErrorKind)>(content) {
+        Ok((_, actual)) => assert_eq!(expected, actual),
+        Err(e) => {
+            eprintln!("{:?}", e);
+            assert!(false);
+        }
+    }
+}
 
 #[test]
 fn entity_line2() {

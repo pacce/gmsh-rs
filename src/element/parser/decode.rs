@@ -16,12 +16,36 @@ use {
     super::{
         Dimension,
         Element,
+        Elements,
         ElementTag,
         ElementType,
         Entity,
         EntityTag,
     }
 };
+
+pub fn elements<'a, E: ParseError<&'a str>>(i: &'a str)
+    -> IResult<&'a str, Elements, E>
+{
+    let (i, _)      = complete::tag("$Elements")(i)?;
+    let (i,_)       = newline(i)?;
+
+    let (i, ens)    = count(i)?;
+    let (i, _)      = space0(i)?;
+    let (i, es)     = count(i)?;
+    let (i, _)      = space0(i)?;
+    let (i, min)    = element_tag(i)?;
+    let (i, _)      = space0(i)?;
+    let (i, max)    = element_tag(i)?;
+    let (i, _)      = newline(i)?;
+
+    let (i, entities) = multi::count(entity, ens)(i)?;
+
+    let (i, _)      = complete::tag("$EndElements")(i)?;
+    let (i, _)      = newline(i)?;
+
+    Ok((i, Elements::new(min, max, entities)))
+}
 
 pub fn entity<'a, E: ParseError<&'a str>>(i: &'a str)
     -> IResult<&'a str, Entity, E>
