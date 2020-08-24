@@ -96,4 +96,11 @@ pub enum Element {
         node::Tag,
         node::Tag,
         ),
+    Pyramid5 (
+        node::Tag,
+        node::Tag,
+        node::Tag,
+        node::Tag,
+        node::Tag,
+        ),
 }

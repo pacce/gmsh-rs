@@ -13,6 +13,7 @@ use {
             tetrahedron4,
             hexahedron8,
             prism6,
+            pyramid5,
             self,
         },
         Element,
@@ -149,6 +150,24 @@ fn entity_prism6() {
     elements.insert(2, Element::Prism6(7, 8, 9, 10, 11, 12));
 
     let expected = Entity::new(2, 1, 6, elements);
+    match decode::entity::<(&str, ErrorKind)>(content) {
+        Ok((_, actual)) => assert_eq!(expected, actual),
+        Err(_) => assert!(false),
+    }
+}
+
+#[test]
+fn entity_pyramid5() {
+    let content = "\
+2 1 7 2
+1 1 2 3 4 5
+2 6 7 8 9 10
+";
+    let mut elements : HashMap<ElementTag, Element> = HashMap::new();
+    elements.insert(1, Element::Pyramid5(1, 2, 3, 4, 5));
+    elements.insert(2, Element::Pyramid5(6, 7, 8, 9, 10));
+
+    let expected = Entity::new(2, 1, 7, elements);
     match decode::entity::<(&str, ErrorKind)>(content) {
         Ok((_, actual)) => assert_eq!(expected, actual),
         Err(_) => assert!(false),
@@ -296,6 +315,31 @@ fn elements_prism6() {
     ];
     fn parser(s: &str) -> IResult<&str, Vec<(ElementTag, Element)>> {
         many0(prism6)(s)
+    }
+    match parser(content) {
+        Ok((i_, actual)) => {
+            assert_eq!(expected.len(), actual.len());
+            for ((et, ee), (at, ae)) in expected.iter().zip(actual) {
+                assert_eq!(*et, at);
+                assert_eq!(*ee, ae);
+            }
+        }
+        Err(_) => assert!(false),
+    }
+}
+
+#[test]
+fn elements_pyramid5() {
+    let content = "\
+1 1 2 3 4 5
+2 6 7 8 9 10
+";
+    let expected = vec![
+        (1, Element::Pyramid5(1, 2, 3, 4, 5)),
+        (2, Element::Pyramid5(6, 7, 8, 9, 10)),
+    ];
+    fn parser(s: &str) -> IResult<&str, Vec<(ElementTag, Element)>> {
+        many0(pyramid5)(s)
     }
     match parser(content) {
         Ok((i_, actual)) => {
