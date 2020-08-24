@@ -11,6 +11,7 @@ use {
             triangle3,
             quadrangle4,
             tetrahedron4,
+            hexahedron8,
             self,
         },
         Element,
@@ -118,6 +119,24 @@ fn entity_tetrahedron4() {
 }
 
 #[test]
+fn entity_hexahedron8() {
+    let content = "\
+2 1 5 2
+1 1 2 3 4 5 6 7 8
+2 9 10 11 12 13 14 15 16
+";
+    let mut elements : HashMap<ElementTag, Element> = HashMap::new();
+    elements.insert(1, Element::Hexahedron8(1, 2, 3, 4, 5, 6, 7, 8));
+    elements.insert(2, Element::Hexahedron8(9, 10, 11, 12, 13, 14, 15, 16));
+
+    let expected = Entity::new(2, 1, 5, elements);
+    match decode::entity::<(&str, ErrorKind)>(content) {
+        Ok((_, actual)) => assert_eq!(expected, actual),
+        Err(_) => assert!(false),
+    }
+}
+
+#[test]
 fn elements_line2() {
     let content = "\
 1 1 2
@@ -208,6 +227,31 @@ fn elements_tetrahedron4() {
     ];
     fn parser(s: &str) -> IResult<&str, Vec<(ElementTag, Element)>> {
         many0(tetrahedron4)(s)
+    }
+    match parser(content) {
+        Ok((i_, actual)) => {
+            assert_eq!(expected.len(), actual.len());
+            for ((et, ee), (at, ae)) in expected.iter().zip(actual) {
+                assert_eq!(*et, at);
+                assert_eq!(*ee, ae);
+            }
+        }
+        Err(_) => assert!(false),
+    }
+}
+
+#[test]
+fn elements_hexahedron8() {
+    let content = "\
+1 1 2 3 4 5 6 7 8
+2 9 10 11 12 13 14 15 16
+";
+    let expected = vec![
+        (1, Element::Hexahedron8(1, 2, 3, 4, 5, 6, 7, 8)),
+        (2, Element::Hexahedron8(9, 10, 11, 12, 13, 14, 15, 16)),
+    ];
+    fn parser(s: &str) -> IResult<&str, Vec<(ElementTag, Element)>> {
+        many0(hexahedron8)(s)
     }
     match parser(content) {
         Ok((i_, actual)) => {

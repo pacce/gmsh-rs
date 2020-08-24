@@ -66,6 +66,7 @@ pub fn entity<'a, E: ParseError<&'a str>>(i: &'a str)
         2 => multi::count(triangle3, count)(i)?,
         3 => multi::count(quadrangle4, count)(i)?,
         4 => multi::count(tetrahedron4, count)(i)?,
+        5 => multi::count(hexahedron8, count)(i)?,
         _ => ("", vec![]),
     };
 
@@ -198,6 +199,43 @@ pub fn tetrahedron4<'a, E: ParseError<&'a str>>(i: &'a str)
             n1 as node::Tag,
             n2 as node::Tag,
             n3 as node::Tag,
+        )
+    )))
+}
+
+pub fn hexahedron8<'a, E: ParseError<&'a str>>(i: &'a str)
+    -> IResult<&'a str, (ElementTag, Element), E>
+{
+    let (i, t)  = element_tag(i)?;
+    let (i, _)  = space0(i)?;
+    let (i, n0) = float(i)?;
+    let (i, _)  = space0(i)?;
+    let (i, n1) = float(i)?;
+    let (i, _)  = space0(i)?;
+    let (i, n2) = float(i)?;
+    let (i, _)  = space0(i)?;
+    let (i, n3) = float(i)?;
+    let (i, _)  = space0(i)?;
+    let (i, n4) = float(i)?;
+    let (i, _)  = space0(i)?;
+    let (i, n5) = float(i)?;
+    let (i, _)  = space0(i)?;
+    let (i, n6) = float(i)?;
+    let (i, _)  = space0(i)?;
+    let (i, n7) = float(i)?;
+    let (i, _)  = newline(i)?;
+
+    Ok((i, (
+        t,
+        Element::Hexahedron8 (
+            n0 as node::Tag,
+            n1 as node::Tag,
+            n2 as node::Tag,
+            n3 as node::Tag,
+            n4 as node::Tag,
+            n5 as node::Tag,
+            n6 as node::Tag,
+            n7 as node::Tag,
         )
     )))
 }

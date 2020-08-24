@@ -57,8 +57,35 @@ impl std::default::Default for Entity {
 
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 pub enum Element {
-    Line2 ( node::Tag, node::Tag ),
-    Triangle3 ( node::Tag, node::Tag, node::Tag ),
-    Quadrangle4 ( node::Tag, node::Tag, node::Tag, node::Tag),
-    Tetrahedron4 ( node::Tag, node::Tag, node::Tag, node::Tag),
+    Line2 (
+        node::Tag,
+        node::Tag
+        ),
+    Triangle3 (
+        node::Tag,
+        node::Tag,
+        node::Tag
+        ),
+    Quadrangle4 (
+        node::Tag,
+        node::Tag,
+        node::Tag,
+        node::Tag
+        ),
+    Tetrahedron4 (
+        node::Tag,
+        node::Tag,
+        node::Tag,
+        node::Tag
+        ),
+    Hexahedron8 (
+        node::Tag,
+        node::Tag,
+        node::Tag,
+        node::Tag,
+        node::Tag,
+        node::Tag,
+        node::Tag,
+        node::Tag,
+        ),
 }
