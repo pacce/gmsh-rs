@@ -6,13 +6,13 @@ pub type FileType = i32;
 pub type DataSize = i32;
 
 #[derive(Clone, Debug, PartialEq)]
-pub struct MeshFormat {
+pub struct Format {
     version     : Version,
     file_type   : FileType,
     data_size   : DataSize,
 }
 
-impl MeshFormat {
+impl Format {
     pub fn new(version: Version, file_type: FileType, data_size: DataSize)
         -> Self
     {

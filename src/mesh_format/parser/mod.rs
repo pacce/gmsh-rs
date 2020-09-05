@@ -2,7 +2,7 @@ pub mod decode;
 use super::{
     DataSize,
     FileType,
-    MeshFormat,
+    Format,
     Version,
 };
 

@@ -15,13 +15,13 @@ use {
     super::{
         DataSize,
         FileType,
-        MeshFormat,
+        Format,
         Version,
     }
 };
 
-pub fn mesh_format<'a, E: ParseError<&'a str>>(i: &'a str)
-    -> IResult<&'a str, MeshFormat, E>
+pub fn format<'a, E: ParseError<&'a str>>(i: &'a str)
+    -> IResult<&'a str, Format, E>
 {
     let (i, _)      = complete::tag("$MeshFormat")(i)?;
     let (i, _)      = newline(i)?;
@@ -36,7 +36,7 @@ pub fn mesh_format<'a, E: ParseError<&'a str>>(i: &'a str)
     let (i, _)      = complete::tag("$EndMeshFormat")(i)?;
     let (i, _)      = newline(i)?;
     
-    Ok((i, MeshFormat::new(ver, ft, ds)))
+    Ok((i, Format::new(ver, ft, ds)))
 }
 
 pub fn version<'a, E: ParseError<&'a str>>(i: &'a str)
