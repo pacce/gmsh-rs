@@ -1,4 +1,5 @@
-pub(crate) mod mesh_format;
+pub(crate) mod format;
+pub use format::Format;
 
 pub(crate) mod node;
 pub use node::Node;
