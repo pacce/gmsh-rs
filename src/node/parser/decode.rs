@@ -86,7 +86,7 @@ pub fn tag_newline<'a, E: ParseError<&'a str>>(i: &'a str)
     Ok((i, t))
 }
 
-fn tag<'a, E: ParseError<&'a str>>(i: &'a str)
+pub fn tag<'a, E: ParseError<&'a str>>(i: &'a str)
     -> IResult<&'a str, Tag, E>
 {
     let (i, n) = float(i)?;

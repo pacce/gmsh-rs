@@ -53,3 +53,20 @@ pub fn integer_tag<'a, E: ParseError<&'a str>>(i: &'a str)
     let (i, t) = float(i)?;
     Ok((i, t as IntegerTag))
 }
+
+pub fn value_newline<'a, E: ParseError<&'a str>>(i: &'a str)
+    -> IResult<&'a str, (node::Tag, Value), E>
+{
+    let (i, (t, v)) = value(i)?;
+    let (i, _) = newline(i)?;
+    Ok((i, (t, v as Value)))
+}
+
+pub fn value<'a, E: ParseError<&'a str>>(i: &'a str)
+    -> IResult<&'a str, (node::Tag, Value), E>
+{
+    let (i, t) = node::decode::tag(i)?;
+    let (i, _) = space0(i)?;
+    let (i, v) = double(i)?;
+    Ok((i, (t, v as Value)))
+}

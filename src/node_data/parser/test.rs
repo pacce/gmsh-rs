@@ -1,4 +1,5 @@
 use {
+    crate::node,
     nom::{
         error::ErrorKind,
         multi::many0,
@@ -6,9 +7,7 @@ use {
     },
     std::collections::HashMap,
     super::{
-        decode::{
-            self,
-        },
+        decode,
         IntegerTag,
         RealTag,
         StringTag,
@@ -58,6 +57,38 @@ fn integer_tags() {
     ];
     fn parser(s: &str) -> IResult<&str, Vec<IntegerTag>> {
         many0(decode::integer_tag_newline)(s)
+    }
+    match parser(content) {
+        Ok((i_, actual)) => {
+            assert_eq!(expected.len(), actual.len());
+            for (e, a) in expected.iter().zip(actual) {
+                assert_eq!(*e, a);
+            }
+        }
+        Err(_) => assert!(false),
+    }
+}
+
+#[test]
+fn values() {
+    let content = "\
+1 0.0
+2 0.1
+3 0.2
+4 0.0
+5 0.2
+6 0.4
+";
+    let expected = vec![
+        (1, 0.0),
+        (2, 0.1),
+        (3, 0.2),
+        (4, 0.0),
+        (5, 0.2),
+        (6, 0.4),
+    ];
+    fn parser(s: &str) -> IResult<&str, Vec<(node::Tag, Value)>> {
+        many0(decode::value_newline)(s)
     }
     match parser(content) {
         Ok((i_, actual)) => {
