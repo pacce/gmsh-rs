@@ -1,10 +1,5 @@
 pub mod decode;
-use super::{
-    IntegerTag,
-    RealTag,
-    StringTag,
-    Value,
-};
+use super::*;
 
 #[cfg(test)]
 mod test;
