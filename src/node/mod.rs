@@ -1,3 +1,5 @@
+pub mod data;
+
 mod parser;
 pub use parser::decode;
 
