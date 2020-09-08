@@ -14,10 +14,17 @@ use {
         },
         sequence::tuple
     },
-    std::collections::HashMap,
+    std::{
+        collections::HashMap,
+        convert::Into,
+    },
     super::{
+        MAX_INTEGER_TAGS,
+        MAX_REAL_TAGS,
+        MAX_STRING_TAGS,
         Coordinate,
         Data,
+        DataTag,
         Dimension,
         Entity,
         IntegerTag,
@@ -30,9 +37,6 @@ use {
         StringTags,
         Tag,
         Value,
-        MAX_INTEGER_TAGS,
-        MAX_REAL_TAGS,
-        MAX_STRING_TAGS,
     },
 };
 
@@ -152,9 +156,11 @@ pub fn node_data<'a, E: ParseError<&'a str>>(i: &'a str)
     let (i, string_tags)    = string_tags(i)?;
     let (i, real_tags)      = real_tags(i)?;
     let (i, integer_tags)   = integer_tags(i)?;
-    let (i, vs)             = multi::count(
+
+    let number_of_entities : Option<IntegerTag> = integer_tags.clone().number_of_entities.into();
+    let (i, vs) = multi::count(
         value_newline,
-        integer_tags.number_of_entities as usize
+        number_of_entities.unwrap() as usize
         )(i)?;
 
     let mut values : HashMap<Tag, Value> = HashMap::new();
@@ -178,8 +184,8 @@ pub fn string_tags<'a, E: ParseError<&'a str>>(i: &'a str)
     sts.resize(MAX_STRING_TAGS, StringTag::default());
 
     let string_tags = StringTags::new(
-        sts[0].clone(),
-        sts[1].clone()
+        DataTag::Text(StringTag::from(sts[0].clone())),
+        DataTag::Text(StringTag::from(sts[1].clone())),
         );
 
     Ok((i, string_tags))
@@ -210,7 +216,7 @@ pub fn real_tags<'a, E: ParseError<&'a str>>(i: &'a str)
     let (i, mut rts) = multi::count(real_tag_newline, n)(i)?;
     rts.resize(MAX_REAL_TAGS, RealTag::default());
 
-    let real_tags = RealTags::new(rts[0]);
+    let real_tags = RealTags::new(DataTag::Real(rts[0]));
 
     Ok((i, real_tags))
 }
@@ -239,10 +245,10 @@ pub fn integer_tags<'a, E: ParseError<&'a str>>(i: &'a str)
     its.resize(MAX_INTEGER_TAGS, IntegerTag::default());
 
     let integer_tags = IntegerTags::new(
-        its[0],
-        its[1],
-        its[2],
-        its[3]
+        DataTag::Integer(its[0]),
+        DataTag::Integer(its[1]),
+        DataTag::Integer(its[2]),
+        DataTag::Integer(its[3])
         );
 
     Ok((i, integer_tags))

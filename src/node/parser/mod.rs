@@ -1,7 +1,11 @@
 pub mod decode;
 use super::{
+    MAX_INTEGER_TAGS,
+    MAX_REAL_TAGS,
+    MAX_STRING_TAGS,
     Coordinate,
     Data,
+    DataTag,
     Dimension,
     Entity,
     IntegerTag,
@@ -14,9 +18,6 @@ use super::{
     StringTags,
     Tag,
     Value,
-    MAX_INTEGER_TAGS,
-    MAX_REAL_TAGS,
-    MAX_STRING_TAGS,
 };
 
 #[cfg(test)]

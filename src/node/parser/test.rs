@@ -13,6 +13,7 @@ use {
             self,
         },
         Data,
+        DataTag,
         Entity,
         IntegerTags,
         Node,
@@ -254,9 +255,17 @@ fn node_data() {
 6 0.4
 $EndNodeData
 "#;
-    let sts = StringTags::new("A scalar view".to_string(), "".to_string());
-    let rts = RealTags::new(0.0);
-    let its = IntegerTags::new(0, 1, 6, 0);
+    let sts = StringTags::new(
+        DataTag::Text(String::from("A scalar view")),
+        DataTag::Text(String::from(""))
+        );
+    let rts = RealTags::new(DataTag::Real(0.0));
+    let its = IntegerTags::new(
+        DataTag::Integer(0),
+        DataTag::Integer(1),
+        DataTag::Integer(6),
+        DataTag::Integer(0)
+        );
 
     let mut vs : HashMap<Tag, Value> = HashMap::new();
     vs.insert(1, 0.0);
@@ -281,7 +290,10 @@ fn string_tag() {
     let content = r#"1
 "A scalar view"
 "#;
-    let expected = StringTags::new("A scalar view".to_string(), "".to_string());
+    let expected = StringTags::new(
+        DataTag::Text(String::from("A scalar view")),
+        DataTag::Text(String::from(""))
+        );
     match decode::string_tags::<(&str, ErrorKind)>(content) {
         Ok((_, actual)) => assert_eq!(expected, actual),
         Err(e) => {
@@ -297,7 +309,7 @@ fn real_tag() {
 1
 0.0
 ";
-    let expected = RealTags::new(0.0);
+    let expected = RealTags::new(DataTag::Real(0.0));
     match decode::real_tags::<(&str, ErrorKind)>(content) {
         Ok((_, actual)) => assert_eq!(expected, actual),
         Err(e) => {
@@ -315,7 +327,13 @@ fn integer_tags() {
 1
 6
 ";
-    let expected = IntegerTags::new(0, 1, 6, 0);
+    let expected = IntegerTags::new(
+        DataTag::Integer(0),
+        DataTag::Integer(1),
+        DataTag::Integer(6),
+        DataTag::Integer(0)
+        );
+
     match decode::integer_tags::<(&str, ErrorKind)>(content) {
         Ok((i_, actual)) => assert_eq!(expected, actual),
         Err(_) => assert!(false),
