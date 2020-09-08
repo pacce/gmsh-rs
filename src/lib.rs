@@ -4,7 +4,7 @@ pub use format::Format;
 pub(crate) mod node;
 pub use node::{
     Node,
-    NodeData,
+    Data,
 };
 
 pub(crate) mod element;

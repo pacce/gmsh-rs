@@ -17,12 +17,12 @@ use {
     std::collections::HashMap,
     super::{
         Coordinate,
+        Data,
         Dimension,
         Entity,
         IntegerTag,
         IntegerTags,
         Node,
-        NodeData,
         Nodes,
         RealTag,
         RealTags,
@@ -144,7 +144,7 @@ fn parametric<'a, E: ParseError<&'a str>>(i: &'a str)
 }
 
 pub fn node_data<'a, E: ParseError<&'a str>>(i: &'a str)
-    -> IResult<&'a str, NodeData, E>
+    -> IResult<&'a str, Data, E>
 {
     let (i, _)              = complete::tag("$NodeData")(i)?;
     let (i, _)              = newline(i)?;
@@ -165,7 +165,7 @@ pub fn node_data<'a, E: ParseError<&'a str>>(i: &'a str)
     let (i, _)              = complete::tag("$EndNodeData")(i)?;
     let (i, _)              = newline(i)?;
 
-    Ok((i, NodeData::new(string_tags, real_tags, integer_tags, values)))
+    Ok((i, Data::new(string_tags, real_tags, integer_tags, values)))
 }
 
 pub fn string_tags<'a, E: ParseError<&'a str>>(i: &'a str)

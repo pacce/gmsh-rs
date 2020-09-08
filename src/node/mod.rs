@@ -78,14 +78,14 @@ impl Nodes {
 }
 
 #[derive(Clone, Debug, PartialEq)]
-pub struct NodeData {
+pub struct Data {
     string_tags     : StringTags,
     real_tags       : RealTags,
     integer_tags    : IntegerTags,
     values          : HashMap<Tag, Value>,
 }
 
-impl NodeData {
+impl Data {
     pub fn new(
         string_tags     : StringTags,
         real_tags       : RealTags,
@@ -98,7 +98,7 @@ impl NodeData {
     }
 }
 
-impl std::default::Default for NodeData {
+impl std::default::Default for Data {
     fn default() -> Self {
         Self{
             string_tags     : StringTags::default(),

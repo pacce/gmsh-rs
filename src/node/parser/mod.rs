@@ -1,12 +1,12 @@
 pub mod decode;
 use super::{
     Coordinate,
+    Data,
     Dimension,
     Entity,
     IntegerTag,
     IntegerTags,
     Node,
-    NodeData,
     Nodes,
     RealTag,
     RealTags,

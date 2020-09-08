@@ -12,11 +12,11 @@ use {
             tag_newline,
             self,
         },
+        Data,
         Entity,
         IntegerTags,
         Node,
         Nodes,
-        NodeData,
         RealTags,
         StringTags,
         Tag,
@@ -266,7 +266,7 @@ $EndNodeData
     vs.insert(5, 0.2);
     vs.insert(6, 0.4);
 
-    let expected = NodeData::new(sts, rts, its, vs);
+    let expected = Data::new(sts, rts, its, vs);
     match decode::node_data::<(&str, ErrorKind)>(content) {
         Ok((_, actual)) => assert_eq!(expected, actual),
         Err(e) => {
