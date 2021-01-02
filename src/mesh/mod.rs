@@ -1,6 +1,7 @@
 use {
     crate::{
         element::{Elementary, Physical, Topology, self},
+        format::Format,
         node::{Node, self},
     },
     std::collections::HashMap,
@@ -11,12 +12,13 @@ pub(crate) type Elements    = HashMap<element::Id, (Physical, Elementary, Topolo
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Mesh {
+    format  : Option<Format>,
     nodes   : Nodes,
     elements: Elements,
 }
 
 impl Mesh {
-    pub fn new(nodes: Nodes, elements: Elements) -> Self {
-        Self {nodes, elements}
+    pub fn new(format: Option<Format>, nodes: Nodes, elements: Elements) -> Self {
+        Self {format, nodes, elements}
     }
 }

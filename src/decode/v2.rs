@@ -2,6 +2,7 @@ use {
     crate::{
         element::{Elementary, Physical, Topology, self},
         mesh::{Mesh, self},
+        format::Format,
         node::{Coordinate, Node, self},
     },
     nom::{
@@ -19,11 +20,34 @@ use {
 };
 
 pub fn mesh<'a, E: ParseError<&'a str>>(i: &'a str)-> IResult<&'a str, Mesh, E> {
+    let (i, f)  = format(i)?;
+    let (i, _)  = newline(i)?;
+
     let (i, ns) = nodes(i)?;
     let (i, _)  = newline(i)?;
+
     let (i, es) = elements(i)?;
 
-    Ok((i, Mesh::new(None, ns, es)))
+    Ok((i, Mesh::new(Some(f), ns, es)))
+}
+
+fn format<'a, E: ParseError<&'a str>>(i: &'a str)
+    -> IResult<&'a str, Format, E>
+{
+    let (i, _) = complete::tag("$MeshFormat")(i)?;
+    let (i, _) = newline(i)?;
+
+    let (i, v) = double(i)?;
+    let (i, _) = space0(i)?;
+    let (i, f) = double(i)?;
+    let (i, _) = space0(i)?;
+    let (i, s) = double(i)?;
+    let (i, _) = newline(i)?;
+
+    let (i, _) = complete::tag("$EndMeshFormat")(i)?;
+
+    let format = Format::new(v, f as i32, s as i32);
+    Ok((i, format))
 }
 
 fn coordinate<'a, E: ParseError<&'a str>>(i: &'a str)
@@ -60,7 +84,7 @@ fn node<'a, E: ParseError<&'a str>>(i: &'a str)
 fn nodes<'a, E: ParseError<&'a str>>(i: &'a str)
     -> IResult<&'a str, mesh::Nodes, E>
 {
-    let (i, _)  = complete::tag("$NOD")(i)?;
+    let (i, _)  = complete::tag("$Nodes")(i)?;
     let (i, _)  = newline(i)?;
 
     let (i, n)  = double(i)?;
@@ -68,7 +92,7 @@ fn nodes<'a, E: ParseError<&'a str>>(i: &'a str)
 
     let (i, ns) = multi::count(node, n as usize)(i)?;
 
-    let (i, _)  = complete::tag("$ENDNOD")(i)?;
+    let (i, _)  = complete::tag("$EndNodes")(i)?;
 
     let mut nodes : mesh::Nodes = HashMap::new();
     for (id, node) in ns {
@@ -135,7 +159,7 @@ fn element<'a, E: ParseError<&'a str>>(i: &'a str)
 fn elements<'a, E: ParseError<&'a str>>(i: &'a str)
     -> IResult<&'a str, mesh::Elements, E>
 {
-    let (i, _)  = complete::tag("$ELM")(i)?;
+    let (i, _)  = complete::tag("$Elements")(i)?;
     let (i, _)  = newline(i)?;
 
     let (i, n)  = double(i)?;
@@ -143,7 +167,7 @@ fn elements<'a, E: ParseError<&'a str>>(i: &'a str)
 
     let (i, es) = multi::count(element, n as usize)(i)?;
 
-    let (i, _)  = complete::tag("$ENDELM")(i)?;
+    let (i, _)  = complete::tag("$EndElements")(i)?;
 
     let mut elements : mesh::Elements = HashMap::new();
     for (id, p, e, t) in es {
