@@ -7,6 +7,47 @@ use {
     nom::error::ErrorKind,
 };
 
+// Test meshes were generated from a *.geo file
+// The file has the following implementation
+//
+// lc = 1.0;
+//
+// tau = 2*Pi;
+//
+// electrodes  = 8;
+// radius      = 1.0;
+//
+// z = 0.0;
+// Point(1) = {0.0, 0.0, z, lc};
+//
+// start = newp;
+// For i In {0:electrodes - 1}
+//     angle = (i * tau) / electrodes;
+//     x = radius * Sin (angle);
+//     y = radius * Cos (angle);
+//     Point(newp) = {x, y, z, lc};
+// EndFor
+// end = newp - 1;
+//
+// For c In {start:end}
+//     If (c == end)
+//         Circle(newl) = {c, 1, start};
+//     Else
+//         Circle(newl) = {c, 1, c + 1};
+//     EndIf
+// EndFor
+//
+// Line Loop(5)        = {1:electrodes};
+// Plane Surface(6)    = {5};
+// Physical Surface(7) = {5};
+// Physical Line(8)    = {5};
+//
+// Mesh 2;
+// Save "disk.msh";
+
+// Generate version 1 gmsh specification from *.geo
+// gmsh disk.geo -save_all -format msh1 -
+
 #[test]
 fn gmsh1() {
     let text = "\
