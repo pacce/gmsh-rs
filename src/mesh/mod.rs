@@ -21,4 +21,12 @@ impl Mesh {
     pub fn new(format: Option<Format>, nodes: Nodes, elements: Elements) -> Self {
         Self {format, nodes, elements}
     }
+
+    pub fn nodes(&self) -> &Nodes {
+        &self.nodes
+    }
+
+    pub fn elements(&self) -> &Elements {
+        &self.elements
+    }
 }

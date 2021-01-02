@@ -20,8 +20,7 @@ use {
 };
 
 pub fn mesh<'a, E: ParseError<&'a str>>(i: &'a str)-> IResult<&'a str, Mesh, E> {
-    let (i, f)  = format(i)?;
-    let (i, _)  = newline(i)?;
+    let (i, f)  = format(i)?; let (i, _)  = newline(i)?;
 
     let (i, ns) = nodes(i)?;
     let (i, _)  = newline(i)?;
@@ -129,16 +128,16 @@ fn element<'a, E: ParseError<&'a str>>(i: &'a str)
     let (i, id) = id(i)?;
     let (i, _)  = space0(i)?;
 
-    let (i, t) = double(i)?;
+    let (i, t)  = double(i)?;
+    let (i, _)  = space0(i)?;
+
+    let (i, _)  = double(i)?;
     let (i, _)  = space0(i)?;
 
     let (i, p)  = physical(i)?;
     let (i, _)  = space0(i)?;
 
-    let (i, e) = elementary(i)?;
-    let (i, _)  = space0(i)?;
-
-    let (i, _)  = double(i)?;
+    let (i, e)  = elementary(i)?;
     let (i, _)  = space0(i)?;
 
     let (i, topology) = match t as i32 {
