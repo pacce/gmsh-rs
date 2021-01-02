@@ -1,1 +1,4 @@
-mod v1;
+#[cfg(test)]
+mod test;
+
+pub(crate) mod v1;

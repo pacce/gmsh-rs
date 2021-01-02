@@ -18,7 +18,7 @@ use {
     std::collections::HashMap,
 };
 
-fn mesh<'a, E: ParseError<&'a str>>(i: &'a str)-> IResult<&'a str, Mesh, E> {
+pub fn mesh<'a, E: ParseError<&'a str>>(i: &'a str)-> IResult<&'a str, Mesh, E> {
     let (i, ns) = nodes(i)?;
     let (i, _)  = newline(i)?;
     let (i, es) = elements(i)?;
