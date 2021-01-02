@@ -1,6 +1,7 @@
 use {
     crate::{
         element::{Elementary, Physical, Topology, self},
+        mesh::{Mesh, self},
         node::{Coordinate, Node, self},
     },
     nom::{
@@ -16,6 +17,14 @@ use {
     },
     std::collections::HashMap,
 };
+
+fn mesh<'a, E: ParseError<&'a str>>(i: &'a str)-> IResult<&'a str, Mesh, E> {
+    let (i, ns) = nodes(i)?;
+    let (i, _)  = newline(i)?;
+    let (i, es) = elements(i)?;
+
+    Ok((i, Mesh::new(ns, es)))
+}
 
 fn coordinate<'a, E: ParseError<&'a str>>(i: &'a str)
     -> IResult<&'a str, Coordinate, E>
@@ -49,7 +58,7 @@ fn node<'a, E: ParseError<&'a str>>(i: &'a str)
 }
 
 fn nodes<'a, E: ParseError<&'a str>>(i: &'a str)
-    -> IResult<&'a str, HashMap<node::Id, Node>, E>
+    -> IResult<&'a str, mesh::Nodes, E>
 {
     let (i, _)  = complete::tag("$NOD")(i)?;
     let (i, _)  = newline(i)?;
@@ -61,7 +70,7 @@ fn nodes<'a, E: ParseError<&'a str>>(i: &'a str)
 
     let (i, _)  = complete::tag("$ENDNOD")(i)?;
 
-    let mut nodes : HashMap<node::Id, Node> = HashMap::new();
+    let mut nodes : mesh::Nodes = HashMap::new();
     for (id, node) in ns {
         nodes.insert(id, node);
     }
@@ -124,7 +133,7 @@ fn element<'a, E: ParseError<&'a str>>(i: &'a str)
 }
 
 fn elements<'a, E: ParseError<&'a str>>(i: &'a str)
-    -> IResult<&'a str, HashMap<element::Id, (Physical, Elementary, Topology)>, E>
+    -> IResult<&'a str, mesh::Elements, E>
 {
     let (i, _)  = complete::tag("$ELM")(i)?;
     let (i, _)  = newline(i)?;
@@ -136,8 +145,7 @@ fn elements<'a, E: ParseError<&'a str>>(i: &'a str)
 
     let (i, _)  = complete::tag("$ENDELM")(i)?;
 
-    type Value = (Physical, Physical, Topology);
-    let mut elements : HashMap<node::Id, Value> = HashMap::new();
+    let mut elements : mesh::Elements = HashMap::new();
     for (id, p, e, t) in es {
         elements.insert(id, (p, e, t));
     }
