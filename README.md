@@ -1,4 +1,4 @@
-# gmsh-rs
+# Rutile (TiO2)
 
 A minimal [gmsh](https://gmsh.info/) `msh` file parser implemented using Rust.
 This parser implements version 1 and 2 `msh` file format specification.
@@ -11,7 +11,7 @@ The version 2, however, is incomplete, and parses only the most relevant fields.
 ### Sample usage
 
 ```rust
-use {gmsh_rs::Mesh, std::fs::File};
+use {rutile::Mesh, std::fs::File};
 
 fn main() -> std::io::Result<()> {
     let mut f = File::open("/home/pacce/meshes/disk.msh")?;

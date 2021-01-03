@@ -1,5 +1,5 @@
 [package]
-name = "gmsh-rs"
+name = "rutile"
 version = "0.1.0"
 authors = [
 	"Pedro Henrique Dalla Pacce <pedrodallapacce@gmail.com>",
