@@ -13,7 +13,7 @@ use {
         error::ParseError,
         IResult,
         multi,
-        number::complete::{double},
+        number::complete::double,
     },
     std::collections::HashMap,
 };
