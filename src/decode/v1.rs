@@ -105,7 +105,7 @@ fn element<'a, E: ParseError<&'a str>>(i: &'a str)
     let (i, id) = id(i)?;
     let (i, _)  = space0(i)?;
 
-    let (i, t) = double(i)?;
+    let (i, t)  = topology(i)?;
     let (i, _)  = space0(i)?;
 
     let (i, p)  = physical(i)?;
@@ -117,12 +117,12 @@ fn element<'a, E: ParseError<&'a str>>(i: &'a str)
     let (i, _)  = double(i)?;
     let (i, _)  = space0(i)?;
 
-    let (i, topology) = match t as i32 {
+    let (i, topology) = match t {
         1   => line(i)?,
         2   => triangle3(i)?,
         3   => quadrangle4(i)?,
         4   => tetrahedron4(i)?,
-        5   => tetrahedron4(i)?,
+        5   => hexahedron8(i)?,
         15  => point(i)?,
         _ => unimplemented!(),
     };

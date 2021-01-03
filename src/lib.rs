@@ -1,7 +1,8 @@
 mod decode;
-pub mod mesh;
+
+pub (crate) mod mesh;
+pub use mesh::Mesh;
 
 pub (crate) mod element;
 pub (crate) mod format;
 pub (crate) mod node;
-pub (crate) mod tag;
