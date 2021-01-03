@@ -3,9 +3,9 @@ pub(crate) type Coordinate = f64;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Node {
-    x   : Coordinate,
-    y   : Coordinate,
-    z   : Coordinate,
+    pub x: Coordinate,
+    pub y: Coordinate,
+    pub z: Coordinate,
 }
 
 impl Node {
