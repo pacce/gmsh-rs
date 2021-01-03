@@ -14,7 +14,7 @@ The version 2, however, is incomplete, and parses only the most relevant fields.
 use {rutile::Mesh, std::fs::File};
 
 fn main() -> std::io::Result<()> {
-    let mut f = File::open("/home/pacce/meshes/disk.msh")?;
+    let mut f = File::open("sample.msh")?;
 
     let mesh = Mesh::decode(&mut f)?;
     println!("{:?}", mesh);
