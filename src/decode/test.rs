@@ -5,6 +5,7 @@ use {
         node::Node,
         mesh::{Mesh, self}
     },
+    std::io::Cursor,
     nom::error::ErrorKind,
 };
 
@@ -165,6 +166,12 @@ $ENDELM";
         Err(_) => assert!(false),
         Ok((_, actual)) => assert_eq!(actual, expected)
     }
+
+    let mut cursor = Cursor::new(text);
+    match Mesh::decode(&mut cursor) {
+        Err(_) => assert!(false),
+        Ok(actual) => assert_eq!(actual, expected),
+    }
 }
 
 #[test]
@@ -286,5 +293,11 @@ $EndElements";
     match super::mesh::<(&str, ErrorKind)>(text) {
         Err(_) => assert!(false),
         Ok((_, actual)) => assert_eq!(actual, expected)
+    }
+
+    let mut cursor = Cursor::new(text);
+    match Mesh::decode(&mut cursor) {
+        Err(_) => assert!(false),
+        Ok(actual) => assert_eq!(actual, expected),
     }
 }

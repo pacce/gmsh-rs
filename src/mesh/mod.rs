@@ -1,10 +1,11 @@
 use {
     crate::{
+        decode,
         element::{Elementary, Physical, Topology, self},
         format::Format,
         node::{Node, self},
     },
-    std::collections::HashMap,
+    std::{collections::HashMap, io::Read}
 };
 
 pub(crate) type Nodes       = HashMap<node::Id, Node>;
@@ -20,6 +21,21 @@ pub struct Mesh {
 impl Mesh {
     pub fn new(format: Option<Format>, nodes: Nodes, elements: Elements) -> Self {
         Self {format, nodes, elements}
+    }
+
+    pub fn decode<R: Read>(reader: &mut R) -> Result<Self, std::io::Error> {
+        let mut ss = String::new();
+        reader.read_to_string(&mut ss)?;
+        match decode::mesh::<(&str, nom::error::ErrorKind)>(&ss) {
+            Ok((_, mesh)) => Ok(mesh),
+            Err(_) => {
+                let err = std::io::Error::new(
+                    std::io::ErrorKind::Other,
+                    "failed to decode mesh",
+                    );
+                Err(err)
+            }
+        }
     }
 
     pub fn nodes(&self) -> &Nodes {
