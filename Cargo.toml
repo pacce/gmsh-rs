@@ -1,6 +1,6 @@
 [package]
 name = "rutile"
-version = "0.1.0"
+version = "0.1.1"
 authors = [
 	"Pedro Henrique Dalla Pacce <pedrodallapacce@gmail.com>",
 	"Daniela Davi Madureira Iope <daniela.iope@hotmail.com>",
