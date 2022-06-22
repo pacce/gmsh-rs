@@ -5,13 +5,11 @@ authors = [
 	"Pedro Henrique Dalla Pacce <pedrodallapacce@gmail.com>",
 	"Daniela Davi Madureira Iope <daniela.iope@hotmail.com>",
 	]
-edition = "2018"
+edition = "2021"
 description = "Minimal gmsh parser"
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/pacce/rutile.git"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
 name = "rutile"
