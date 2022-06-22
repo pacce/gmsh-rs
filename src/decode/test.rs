@@ -2,11 +2,11 @@ use {
     crate::{
         element::Topology,
         format::Format,
+        mesh::{self, Mesh},
         node::Node,
-        mesh::{Mesh, self}
     },
-    std::io::Cursor,
     nom::error::ErrorKind,
+    std::io::Cursor,
 };
 
 // Test meshes were generated from a *.geo file
@@ -105,31 +105,31 @@ $ELM
 $ENDELM";
 
     let mut ns = mesh::Nodes::new();
-    ns.insert( 1, Node::new( 0.0, 0.0, 0.0));
-    ns.insert( 2, Node::new( 0.0, 1.0, 0.0));
-    ns.insert( 3, Node::new( 0.7071067811865475, 0.7071067811865476, 0.0));
-    ns.insert( 4, Node::new( 1.0, 6.123233995736766e-17,0.0));
-    ns.insert( 5, Node::new( 0.7071067811865476, -0.7071067811865475, 0.0));
-    ns.insert( 6, Node::new( 1.224646799147353e-16, -1.0,0.0));
-    ns.insert( 7, Node::new(-0.7071067811865475, -0.7071067811865477, 0.0));
-    ns.insert( 8, Node::new(-1.0, -1.83697019872103e-16, 0.0));
-    ns.insert( 9, Node::new(-0.7071067811865477,0.7071067811865474,0.0));
-    ns.insert(10, Node::new(-0.1113264466680611,-0.2687658173968382,0.0));
-    ns.insert(11, Node::new( 0.150474547846242,0.3632776942023567,0.0));
-    ns.insert(12, Node::new( 0.4510798725986296,-0.1820395192602642,0.0));
-    ns.insert(13, Node::new(-0.447683015284127,0.1902402582583829,-0.0));
+    ns.insert(1, Node::new(0.0, 0.0, 0.0));
+    ns.insert(2, Node::new(0.0, 1.0, 0.0));
+    ns.insert(3, Node::new(0.7071067811865475, 0.7071067811865476, 0.0));
+    ns.insert(4, Node::new(1.0, 6.123233995736766e-17, 0.0));
+    ns.insert(5, Node::new(0.7071067811865476, -0.7071067811865475, 0.0));
+    ns.insert(6, Node::new(1.224646799147353e-16, -1.0, 0.0));
+    ns.insert(7, Node::new(-0.7071067811865475, -0.7071067811865477, 0.0));
+    ns.insert(8, Node::new(-1.0, -1.83697019872103e-16, 0.0));
+    ns.insert(9, Node::new(-0.7071067811865477, 0.7071067811865474, 0.0));
+    ns.insert(10, Node::new(-0.1113264466680611, -0.2687658173968382, 0.0));
+    ns.insert(11, Node::new(0.150474547846242, 0.3632776942023567, 0.0));
+    ns.insert(12, Node::new(0.4510798725986296, -0.1820395192602642, 0.0));
+    ns.insert(13, Node::new(-0.447683015284127, 0.1902402582583829, -0.0));
 
     let mut es = mesh::Elements::new();
 
-    es.insert( 1, (0, 1, Topology::Point1(1)));
-    es.insert( 2, (0, 2, Topology::Point1(2)));
-    es.insert( 3, (0, 3, Topology::Point1(3)));
-    es.insert( 4, (0, 4, Topology::Point1(4)));
-    es.insert( 5, (0, 5, Topology::Point1(5)));
-    es.insert( 6, (0, 6, Topology::Point1(6)));
-    es.insert( 7, (0, 7, Topology::Point1(7)));
-    es.insert( 8, (0, 8, Topology::Point1(8)));
-    es.insert( 9, (0, 9, Topology::Point1(9)));
+    es.insert(1, (0, 1, Topology::Point1(1)));
+    es.insert(2, (0, 2, Topology::Point1(2)));
+    es.insert(3, (0, 3, Topology::Point1(3)));
+    es.insert(4, (0, 4, Topology::Point1(4)));
+    es.insert(5, (0, 5, Topology::Point1(5)));
+    es.insert(6, (0, 6, Topology::Point1(6)));
+    es.insert(7, (0, 7, Topology::Point1(7)));
+    es.insert(8, (0, 8, Topology::Point1(8)));
+    es.insert(9, (0, 9, Topology::Point1(9)));
 
     es.insert(10, (0, 1, Topology::Line2(2, 3)));
     es.insert(11, (0, 2, Topology::Line2(3, 4)));
@@ -140,18 +140,18 @@ $ENDELM";
     es.insert(16, (0, 7, Topology::Line2(8, 9)));
     es.insert(17, (0, 8, Topology::Line2(9, 2)));
 
-    es.insert(18, (0, 6, Topology::Triangle3( 9,  2, 13)));
-    es.insert(19, (0, 6, Topology::Triangle3( 3,  4, 12)));
-    es.insert(20, (0, 6, Topology::Triangle3( 5,  6, 12)));
-    es.insert(21, (0, 6, Topology::Triangle3( 6, 10, 12)));
-    es.insert(22, (0, 6, Topology::Triangle3( 7,  8, 13)));
-    es.insert(23, (0, 6, Topology::Triangle3(10,  7, 13)));
-    es.insert(24, (0, 6, Topology::Triangle3( 2, 11, 13)));
-    es.insert(25, (0, 6, Topology::Triangle3(11,  3, 12)));
-    es.insert(26, (0, 6, Topology::Triangle3( 6,  7, 10)));
-    es.insert(27, (0, 6, Topology::Triangle3( 2,  3, 11)));
-    es.insert(28, (0, 6, Topology::Triangle3( 4,  5, 12)));
-    es.insert(29, (0, 6, Topology::Triangle3( 8,  9, 13)));
+    es.insert(18, (0, 6, Topology::Triangle3(9, 2, 13)));
+    es.insert(19, (0, 6, Topology::Triangle3(3, 4, 12)));
+    es.insert(20, (0, 6, Topology::Triangle3(5, 6, 12)));
+    es.insert(21, (0, 6, Topology::Triangle3(6, 10, 12)));
+    es.insert(22, (0, 6, Topology::Triangle3(7, 8, 13)));
+    es.insert(23, (0, 6, Topology::Triangle3(10, 7, 13)));
+    es.insert(24, (0, 6, Topology::Triangle3(2, 11, 13)));
+    es.insert(25, (0, 6, Topology::Triangle3(11, 3, 12)));
+    es.insert(26, (0, 6, Topology::Triangle3(6, 7, 10)));
+    es.insert(27, (0, 6, Topology::Triangle3(2, 3, 11)));
+    es.insert(28, (0, 6, Topology::Triangle3(4, 5, 12)));
+    es.insert(29, (0, 6, Topology::Triangle3(8, 9, 13)));
     es.insert(30, (0, 6, Topology::Triangle3(11, 10, 13)));
     es.insert(31, (0, 6, Topology::Triangle3(10, 11, 12)));
 
@@ -164,7 +164,7 @@ $ENDELM";
 
     match super::mesh::<(&str, ErrorKind)>(text) {
         Err(_) => assert!(false),
-        Ok((_, actual)) => assert_eq!(actual, expected)
+        Ok((_, actual)) => assert_eq!(actual, expected),
     }
 
     let mut cursor = Cursor::new(text);
@@ -232,31 +232,31 @@ $Elements
 $EndElements";
     let mut ns = mesh::Nodes::new();
 
-    ns.insert( 1, Node::new( 0.0, 0.0, 0.0));
-    ns.insert( 2, Node::new( 0.0, 1.0, 0.0));
-    ns.insert( 3, Node::new( 0.7071067811865475, 0.7071067811865476, 0.0));
-    ns.insert( 4, Node::new( 1.0, 0.0, 0.0));
-    ns.insert( 5, Node::new( 0.7071067811865476, -0.7071067811865475, 0.0));
-    ns.insert( 6, Node::new( 0.0, -1.0, 0.0));
-    ns.insert( 7, Node::new(-0.7071067811865475, -0.7071067811865477, 0.0));
-    ns.insert( 8, Node::new(-1.0, 0.0, 0.0));
-    ns.insert( 9, Node::new(-0.7071067811865477, 0.7071067811865474, 0.0));
+    ns.insert(1, Node::new(0.0, 0.0, 0.0));
+    ns.insert(2, Node::new(0.0, 1.0, 0.0));
+    ns.insert(3, Node::new(0.7071067811865475, 0.7071067811865476, 0.0));
+    ns.insert(4, Node::new(1.0, 0.0, 0.0));
+    ns.insert(5, Node::new(0.7071067811865476, -0.7071067811865475, 0.0));
+    ns.insert(6, Node::new(0.0, -1.0, 0.0));
+    ns.insert(7, Node::new(-0.7071067811865475, -0.7071067811865477, 0.0));
+    ns.insert(8, Node::new(-1.0, 0.0, 0.0));
+    ns.insert(9, Node::new(-0.7071067811865477, 0.7071067811865474, 0.0));
     ns.insert(10, Node::new(-0.1113264466680611, -0.2687658173968382, 0.0));
-    ns.insert(11, Node::new( 0.150474547846242, 0.3632776942023567, 0.0));
-    ns.insert(12, Node::new( 0.4510798725986296, -0.1820395192602642, 0.0));
+    ns.insert(11, Node::new(0.150474547846242, 0.3632776942023567, 0.0));
+    ns.insert(12, Node::new(0.4510798725986296, -0.1820395192602642, 0.0));
     ns.insert(13, Node::new(-0.447683015284127, 0.1902402582583829, -0.0));
 
     let mut es = mesh::Elements::new();
 
-    es.insert( 1, (0, 1, Topology::Point1(1)));
-    es.insert( 2, (0, 2, Topology::Point1(2)));
-    es.insert( 3, (0, 3, Topology::Point1(3)));
-    es.insert( 4, (0, 4, Topology::Point1(4)));
-    es.insert( 5, (0, 5, Topology::Point1(5)));
-    es.insert( 6, (0, 6, Topology::Point1(6)));
-    es.insert( 7, (0, 7, Topology::Point1(7)));
-    es.insert( 8, (0, 8, Topology::Point1(8)));
-    es.insert( 9, (0, 9, Topology::Point1(9)));
+    es.insert(1, (0, 1, Topology::Point1(1)));
+    es.insert(2, (0, 2, Topology::Point1(2)));
+    es.insert(3, (0, 3, Topology::Point1(3)));
+    es.insert(4, (0, 4, Topology::Point1(4)));
+    es.insert(5, (0, 5, Topology::Point1(5)));
+    es.insert(6, (0, 6, Topology::Point1(6)));
+    es.insert(7, (0, 7, Topology::Point1(7)));
+    es.insert(8, (0, 8, Topology::Point1(8)));
+    es.insert(9, (0, 9, Topology::Point1(9)));
 
     es.insert(10, (0, 1, Topology::Line2(2, 3)));
     es.insert(11, (0, 2, Topology::Line2(3, 4)));
@@ -267,18 +267,18 @@ $EndElements";
     es.insert(16, (0, 7, Topology::Line2(8, 9)));
     es.insert(17, (0, 8, Topology::Line2(9, 2)));
 
-    es.insert(18, (0, 6, Topology::Triangle3( 9,  2, 13)));
-    es.insert(19, (0, 6, Topology::Triangle3( 3,  4, 12)));
-    es.insert(20, (0, 6, Topology::Triangle3( 5,  6, 12)));
-    es.insert(21, (0, 6, Topology::Triangle3( 6, 10, 12)));
-    es.insert(22, (0, 6, Topology::Triangle3( 7,  8, 13)));
-    es.insert(23, (0, 6, Topology::Triangle3(10,  7, 13)));
-    es.insert(24, (0, 6, Topology::Triangle3( 2, 11, 13)));
-    es.insert(25, (0, 6, Topology::Triangle3(11,  3, 12)));
-    es.insert(26, (0, 6, Topology::Triangle3( 6,  7, 10)));
-    es.insert(27, (0, 6, Topology::Triangle3( 2,  3, 11)));
-    es.insert(28, (0, 6, Topology::Triangle3( 4,  5, 12)));
-    es.insert(29, (0, 6, Topology::Triangle3( 8,  9, 13)));
+    es.insert(18, (0, 6, Topology::Triangle3(9, 2, 13)));
+    es.insert(19, (0, 6, Topology::Triangle3(3, 4, 12)));
+    es.insert(20, (0, 6, Topology::Triangle3(5, 6, 12)));
+    es.insert(21, (0, 6, Topology::Triangle3(6, 10, 12)));
+    es.insert(22, (0, 6, Topology::Triangle3(7, 8, 13)));
+    es.insert(23, (0, 6, Topology::Triangle3(10, 7, 13)));
+    es.insert(24, (0, 6, Topology::Triangle3(2, 11, 13)));
+    es.insert(25, (0, 6, Topology::Triangle3(11, 3, 12)));
+    es.insert(26, (0, 6, Topology::Triangle3(6, 7, 10)));
+    es.insert(27, (0, 6, Topology::Triangle3(2, 3, 11)));
+    es.insert(28, (0, 6, Topology::Triangle3(4, 5, 12)));
+    es.insert(29, (0, 6, Topology::Triangle3(8, 9, 13)));
     es.insert(30, (0, 6, Topology::Triangle3(11, 10, 13)));
     es.insert(31, (0, 6, Topology::Triangle3(10, 11, 12)));
 
@@ -287,12 +287,12 @@ $EndElements";
 
     match super::v2::mesh::<(&str, ErrorKind)>(text) {
         Err(_) => assert!(false),
-        Ok((_, actual)) => assert_eq!(actual, expected)
+        Ok((_, actual)) => assert_eq!(actual, expected),
     }
 
     match super::mesh::<(&str, ErrorKind)>(text) {
         Err(_) => assert!(false),
-        Ok((_, actual)) => assert_eq!(actual, expected)
+        Ok((_, actual)) => assert_eq!(actual, expected),
     }
 
     let mut cursor = Cursor::new(text);

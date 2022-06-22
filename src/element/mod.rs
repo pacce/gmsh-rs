@@ -10,27 +10,17 @@ pub enum Topology {
     Triangle3(node::Id, node::Id, node::Id),
     Quadrangle4(node::Id, node::Id, node::Id, node::Id),
     Tetrahedron4(node::Id, node::Id, node::Id, node::Id),
-    Hexahedron8( node::Id
-               , node::Id
-               , node::Id
-               , node::Id
-               , node::Id
-               , node::Id
-               , node::Id
-               , node::Id
-               ),
-    Prism6( node::Id
-          , node::Id
-          , node::Id
-          , node::Id
-          , node::Id
-          , node::Id
-          ),
-    Pyramid5( node::Id
-            , node::Id
-            , node::Id
-            , node::Id
-            , node::Id
-            ),
-    Point1(node::Id)
+    Hexahedron8(
+        node::Id,
+        node::Id,
+        node::Id,
+        node::Id,
+        node::Id,
+        node::Id,
+        node::Id,
+        node::Id,
+    ),
+    Prism6(node::Id, node::Id, node::Id, node::Id, node::Id, node::Id),
+    Pyramid5(node::Id, node::Id, node::Id, node::Id, node::Id),
+    Point1(node::Id),
 }
