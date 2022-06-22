@@ -6,7 +6,7 @@ pub struct Format {
 }
 
 impl Format {
-    pub fn new(version: f64, file: i32, size: i32) -> Self {
+    pub const fn new(version: f64, file: i32, size: i32) -> Self {
         Self {
             version,
             file,

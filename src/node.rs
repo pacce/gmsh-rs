@@ -1,7 +1,7 @@
 pub(crate) type Id = i32;
 pub(crate) type Coordinate = f64;
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct Node {
     x: Coordinate,
     y: Coordinate,
@@ -9,17 +9,7 @@ pub struct Node {
 }
 
 impl Node {
-    pub fn new(x: Coordinate, y: Coordinate, z: Coordinate) -> Self {
+    pub const fn new(x: Coordinate, y: Coordinate, z: Coordinate) -> Self {
         Self { x, y, z }
-    }
-}
-
-impl std::default::Default for Node {
-    fn default() -> Self {
-        Self {
-            x: Coordinate::default(),
-            y: Coordinate::default(),
-            z: Coordinate::default(),
-        }
     }
 }
