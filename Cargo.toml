@@ -18,4 +18,4 @@ name = "rutile"
 path = "src/lib.rs"
 
 [dependencies]
-nom = "5"
+nom = "7"

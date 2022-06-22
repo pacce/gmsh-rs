@@ -26,7 +26,7 @@ impl Mesh {
     pub fn decode<R: Read>(reader: &mut R) -> Result<Self, std::io::Error> {
         let mut ss = String::new();
         reader.read_to_string(&mut ss)?;
-        match decode::mesh::<(&str, nom::error::ErrorKind)>(&ss) {
+        match decode::mesh::<nom::error::Error<&str>>(&ss) {
             Ok((_, mesh)) => Ok(mesh),
             Err(_) => {
                 let err = std::io::Error::new(

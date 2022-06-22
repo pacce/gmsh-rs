@@ -301,3 +301,15 @@ $EndElements";
         Ok(actual) => assert_eq!(actual, expected),
     }
 }
+
+#[test]
+fn gmsh4() {
+    let text = include_str!("t4.msh");
+
+    super::v4::mesh::<(&str, ErrorKind)>(text).unwrap();
+
+    super::mesh::<(&str, ErrorKind)>(text).unwrap();
+
+    let mut cursor = Cursor::new(text);
+    Mesh::decode(&mut cursor).unwrap();
+}
